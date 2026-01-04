@@ -1,0 +1,173 @@
+
+> g-wagon@0.1.0 lint
+> eslint
+
+
+/Users/won-uyeon/Desktop/side-projects/px/src/app/admin/data-generator/page.tsx
+  43:63  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  53:20  warning  'e' is defined but never used             @typescript-eslint/no-unused-vars
+  89:17  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/won-uyeon/Desktop/side-projects/px/src/app/community/[id]/page.tsx
+   3:31  warning  'use' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-unused-vars
+  51:7   error    Error: Cannot access variable before it is declared
+
+`fetchPostAndComments` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/won-uyeon/Desktop/side-projects/px/src/app/community/[id]/page.tsx:51:7
+  49 |     params.then((p) => {
+  50 |       setId(p.id);
+> 51 |       fetchPostAndComments(p.id);
+     |       ^^^^^^^^^^^^^^^^^^^^ `fetchPostAndComments` accessed before it is declared
+  52 |     });
+  53 |   }, [params]);
+  54 |
+
+/Users/won-uyeon/Desktop/side-projects/px/src/app/community/[id]/page.tsx:55:3
+  53 |   }, [params]);
+  54 |
+> 55 |   const fetchPostAndComments = async (postId: string) => {
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 56 |     // Fetch Post
+     | ^^^^^^^^^^^^^^^^^
+> 57 |     const { data: postData, error: postError } = await supabase
+     …
+     | ^^^^^^^^^^^^^^^^^
+> 91 |     setLoading(false);
+     | ^^^^^^^^^^^^^^^^^
+> 92 |   };
+     | ^^^^^ `fetchPostAndComments` is declared here
+  93 |
+  94 |   const handleDeletePost = async () => {
+  95 |     if (!confirm('정말로 이 게시글을 삭제하시겠습니까?')) return;  react-hooks/immutability
+  53:6   warning  React Hook useEffect has a missing dependency: 'fetchPostAndComments'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       react-hooks/exhaustive-deps
+  88:35  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-explicit-any
+
+/Users/won-uyeon/Desktop/side-projects/px/src/app/community/page.tsx
+  28:5   error  Error: Cannot access variable before it is declared
+
+`fetchPosts` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/won-uyeon/Desktop/side-projects/px/src/app/community/page.tsx:28:5
+  26 |
+  27 |   useEffect(() => {
+> 28 |     fetchPosts();
+     |     ^^^^^^^^^^ `fetchPosts` accessed before it is declared
+  29 |   }, []);
+  30 |
+  31 |   const fetchPosts = async () => {
+
+/Users/won-uyeon/Desktop/side-projects/px/src/app/community/page.tsx:31:3
+  29 |   }, []);
+  30 |
+> 31 |   const fetchPosts = async () => {
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 32 |     const { data, error } = await supabase
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 33 |       .from('posts')
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 50 |     setLoading(false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 51 |   };
+     | ^^^^^ `fetchPosts` is declared here
+  52 |
+  53 |   return (
+  54 |     <div className="max-w-4xl mx-auto p-4 md:p-8">  react-hooks/immutability
+  48:24  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-explicit-any
+
+/Users/won-uyeon/Desktop/side-projects/px/src/app/community/write/page.tsx
+  44:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/won-uyeon/Desktop/side-projects/px/src/app/community/write/page.tsx:44:7
+  42 |         store.address.includes(searchQuery)
+  43 |       ).slice(0, 5); // Limit to 5 results
+> 44 |       setSearchResults(results);
+     |       ^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  45 |       setShowResults(true);
+  46 |     } else {
+  47 |       setSearchResults([]);  react-hooks/set-state-in-effect
+
+/Users/won-uyeon/Desktop/side-projects/px/src/app/page.tsx
+    4:20  warning  'useMemo' is defined but never used       @typescript-eslint/no-unused-vars
+   27:50  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   65:31  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  226:30  warning  'e' is defined but never used             @typescript-eslint/no-unused-vars
+
+/Users/won-uyeon/Desktop/side-projects/px/src/components/Auth/AuthForm.tsx
+  6:22  warning  'User' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/won-uyeon/Desktop/side-projects/px/src/components/Map/MapContainer.tsx
+   16:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  112:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/won-uyeon/Desktop/side-projects/px/src/components/Map/NaverMap.tsx
+  13:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  18:34  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  64:28  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  79:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/won-uyeon/Desktop/side-projects/px/src/components/Map/StoreBottomSheet.tsx
+  4:13  warning  'Navigation' is defined but never used  @typescript-eslint/no-unused-vars
+  4:47  warning  'Car' is defined but never used         @typescript-eslint/no-unused-vars
+
+/Users/won-uyeon/Desktop/side-projects/px/src/components/Map/StoreStatusReporter.tsx
+  19:10  warning  'message' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/won-uyeon/Desktop/side-projects/px/src/components/PX/StoreReviewList.tsx
+   6:16  warning  'User' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+  35:5   error    Error: Cannot access variable before it is declared
+
+`fetchReviews` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/won-uyeon/Desktop/side-projects/px/src/components/PX/StoreReviewList.tsx:35:5
+  33 |
+  34 |   useEffect(() => {
+> 35 |     fetchReviews();
+     |     ^^^^^^^^^^^^ `fetchReviews` accessed before it is declared
+  36 |   }, [storeId]);
+  37 |
+  38 |   const fetchReviews = async () => {
+
+/Users/won-uyeon/Desktop/side-projects/px/src/components/PX/StoreReviewList.tsx:38:3
+  36 |   }, [storeId]);
+  37 |
+> 38 |   const fetchReviews = async () => {
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 39 |     setLoading(true);
+     | ^^^^^^^^^^^^^^^^^^^^^
+> 40 |     const { data, error } = await supabase
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^
+> 52 |     setLoading(false);
+     | ^^^^^^^^^^^^^^^^^^^^^
+> 53 |   };
+     | ^^^^^ `fetchReviews` is declared here
+  54 |
+  55 |   const handleSubmit = async (e: React.FormEvent) => {
+  56 |     e.preventDefault();  react-hooks/immutability
+  36:6   warning  React Hook useEffect has a missing dependency: 'fetchReviews'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/exhaustive-deps
+  50:26  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/no-explicit-any
+
+/Users/won-uyeon/Desktop/side-projects/px/src/hooks/useMarts.ts
+  14:19  warning  'setLoading' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  15:17  warning  'setError' is assigned a value but never used    @typescript-eslint/no-unused-vars
+
+/Users/won-uyeon/Desktop/side-projects/px/src/lib/geocode.ts
+  18:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  18:31  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  60:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  60:31  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/won-uyeon/Desktop/side-projects/px/src/types/global.d.ts
+  5:12  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  6:12  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 36 problems (23 errors, 13 warnings)
+

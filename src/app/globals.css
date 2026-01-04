@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8f9fa;
+  --foreground: #212529;
+
+  /* Karrot Market Theme */
+  --primary: #ff6f0f;
+  --primary-foreground: #ffffff;
+  --secondary: #ffffff;
+  --secondary-foreground: #212529;
+  --accent: #ff6f0f;
+  --accent-foreground: #ffffff;
+
+  --card: #ffffff;
+  --card-foreground: #212529;
+
+  --border: #e9ecef;
+  --input: #e9ecef;
+  --ring: #ff6f0f;
+
+  --radius: 1rem;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* Karrot Style Utilities */
+.karrot-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.karrot-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #ced4da;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #adb5bd;
+}
