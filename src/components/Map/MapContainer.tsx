@@ -82,40 +82,42 @@ export default function MapContainer({
       )}
 
       {/* Naver Map */}
-      <div
-        className={`w-full h-full ${activeProvider === "naver" ? "block" : "hidden"}`}
-      >
-        <NavermapsProvider ncpKeyId={naverClientId} submodules={["geocoder"]}>
-          <NaverMapComponent
-            stores={stores}
-            selectedStore={selectedStore}
-            onSelectStore={onSelectStore}
-            onMapLoad={onMapLoad}
-          />
-        </NavermapsProvider>
-      </div>
+      {activeProvider === "naver" && (
+        <div className="w-full h-full">
+          <NavermapsProvider ncpKeyId={naverClientId} submodules={["geocoder"]}>
+            <NaverMapComponent
+              stores={stores}
+              selectedStore={selectedStore}
+              onSelectStore={onSelectStore}
+              onMapLoad={onMapLoad}
+            />
+          </NavermapsProvider>
+        </div>
+      )}
 
       {/* Kakao Map */}
-      <div
-        className={`w-full h-full ${activeProvider === "kakao" ? "block" : "hidden"}`}
-      >
-        <Script
-          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoAppKey}&libraries=services,clusterer&autoload=false`}
-          strategy="afterInteractive"
-          onLoad={() => {
-            window.kakao.maps.load(() => {
-              setKakaoLoaded(true);
-            });
-          }}
-        />
-        {kakaoLoaded && (
-          <KakaoMapComponent
-            stores={stores}
-            selectedStore={selectedStore}
-            onSelectStore={onSelectStore}
+      {activeProvider === "kakao" && (
+        <div className="w-full h-full">
+          <Script
+            src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoAppKey}&libraries=services,clusterer&autoload=false`}
+            strategy="afterInteractive"
+            onLoad={() => {
+              if (window.kakao && window.kakao.maps) {
+                window.kakao.maps.load(() => {
+                  setKakaoLoaded(true);
+                });
+              }
+            }}
           />
-        )}
-      </div>
+          {kakaoLoaded && (
+            <KakaoMapComponent
+              stores={stores}
+              selectedStore={selectedStore}
+              onSelectStore={onSelectStore}
+            />
+          )}
+        </div>
+      )}
 
       {/* Store Bottom Sheet */}
       <StoreBottomSheet

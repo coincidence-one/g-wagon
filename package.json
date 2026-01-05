@@ -16,7 +16,7 @@
     "next": "^16.0.6",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-kakao-maps-sdk": "^1.1.27",
+    "react-kakao-maps-sdk": "^1.1.28",
     "react-naver-maps": "^0.1.4",
     "supercluster": "^8.0.1",
     "use-supercluster": "^1.2.0"

@@ -8,7 +8,7 @@ import {
   useNavermaps,
 } from "react-naver-maps";
 import { PXStore } from "@/lib/mockData";
-import { useState } from "react";
+import { useState, useCallback, useRef } from "react";
 import useSupercluster from "use-supercluster";
 
 interface NaverMapComponentProps {
@@ -25,7 +25,7 @@ export default function NaverMapComponent({
   onMapLoad,
 }: NaverMapComponentProps) {
   const navermaps = useNavermaps();
-  const [map, setMap] = useState<any>(null);
+  const mapRef = useRef<any>(null);
   const [zoom, setZoom] = useState(13);
   const [bounds, setBounds] = useState<
     [number, number, number, number] | undefined
@@ -50,17 +50,19 @@ export default function NaverMapComponent({
     options: { radius: 75, maxZoom: 20 },
   });
 
-  const updateMapState = () => {
+  const updateMapState = useCallback(() => {
+    const map = mapRef.current;
     if (!map) return;
     const zoom = map.getZoom();
     const bounds = map.getBounds();
 
-    const southWest = bounds.getMin();
-    const northEast = bounds.getMax();
-
-    setZoom(zoom);
-    setBounds([southWest.x, southWest.y, northEast.x, northEast.y]);
-  };
+    if (bounds) {
+      const southWest = bounds.getMin();
+      const northEast = bounds.getMax();
+      setZoom(zoom);
+      setBounds([southWest.x, southWest.y, northEast.x, northEast.y]);
+    }
+  }, []);
 
   return (
     <MapDiv style={{ width: "100%", height: "100%" }}>
@@ -72,15 +74,17 @@ export default function NaverMapComponent({
             ? new navermaps.LatLng(selectedStore.lat, selectedStore.lng)
             : undefined
         }
-        ref={(mapInstance: any) => {
-          if (mapInstance) {
-            setMap(mapInstance);
-            if (onMapLoad) onMapLoad(mapInstance);
+        ref={(instance) => {
+          if (instance) {
+            mapRef.current = instance;
+            if (onMapLoad) onMapLoad(instance);
           }
         }}
-        onZoomChanged={updateMapState}
+        onZoomChanged={(zoom) => {
+          setZoom(zoom);
+          updateMapState();
+        }}
         onBoundsChanged={updateMapState}
-        onCenterChanged={updateMapState}
       >
         {clusters.map((cluster) => {
           const [longitude, latitude] = cluster.geometry.coordinates;
@@ -100,8 +104,10 @@ export default function NaverMapComponent({
                       ),
                       20,
                     );
-                    map?.setZoom(expansionZoom);
-                    map?.setCenter(new navermaps.LatLng(latitude, longitude));
+                    mapRef.current?.setZoom(expansionZoom);
+                    mapRef.current?.setCenter(
+                      new navermaps.LatLng(latitude, longitude),
+                    );
                   }
                 }}
                 icon={{
